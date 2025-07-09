@@ -31,6 +31,18 @@ def orders():
     orders = Order.query.order_by(Order.date.desc()).all()
     return render_template('orders.html', orders=orders)
 
+@app.route('/orders/<int:order_id>')
+def order_detail(order_id):
+    from models import Order, OrderItem, InventoryItem
+    order = Order.query.get_or_404(order_id)
+    order_items = (
+        OrderItem.query.filter_by(order_id=order.id)
+        .join(InventoryItem, OrderItem.inventory_item_id == InventoryItem.id)
+        .add_entity(InventoryItem)
+        .all()
+    )
+    return render_template('order_detail.html', order=order, order_items=order_items)
+
 @app.route('/orders/add', methods=['GET', 'POST'])
 def add_order():
     from models import Order, OrderItem, InventoryItem

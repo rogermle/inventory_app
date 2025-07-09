@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Order #{{ order.id }} Details | Inventory Management System{% endblock %}
+{% block content %}
+<div class="card mt-4">
+  <div class="card-body">
+    <h2 class="card-title mb-3">Order #{{ order.id }} Details</h2>
+    <div class="mb-2"><strong>Date:</strong> {{ order.date }}</div>
+    <div class="mb-2"><strong>Total:</strong> ${{ '%.2f'|format(order.total) }}</div>
+    <h5 class="mt-4">Order Items</h5>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order_item, inventory_item in order_items %}
+        <tr>
+          <td>{{ inventory_item.name }}</td>
+          <td>{{ order_item.quantity }}</td>
+          <td>${{ '%.2f'|format(order_item.price_at_sale) }}</td>
+          <td>${{ '%.2f'|format(order_item.quantity * order_item.price_at_sale) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{{ url_for('orders') }}" class="btn btn-secondary mt-3">Back to Orders</a>
+  </div>
+</div>
+{% endblock %}
