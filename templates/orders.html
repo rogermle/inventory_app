@@ -34,7 +34,12 @@
             </td>
           </tr>
           {% else %}
-          <tr><td colspan="4" class="text-center">No orders found.</td></tr>
+          <tr>
+        <td colspan="4" class="text-center text-muted py-4">
+          <i class="bi bi-cart-x" style="font-size: 2rem;"></i>
+          <div>No orders yet! Time to make your first sale 🎉</div>
+        </td>
+      </tr>
           {% endfor %}
         </tbody>
       </table>
