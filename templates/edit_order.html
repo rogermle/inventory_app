@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Edit Order | Inventory Management System{% endblock %}
+{% block content %}
+<div class="card mt-4">
+  <div class="card-body">
+    <h2 class="card-title">Edit Order #{{ order.id }}</h2>
+    <form method="POST" id="orderForm">
+      <div class="mb-3">
+        <label for="date" class="form-label">Order Date</label>
+        <input type="date" class="form-control" id="date" name="date" value="{{ today }}">
+      </div>
+      <table class="table" id="orderItemsTable">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="orderItemsBody">
+          {% for order_item in order_items %}
+          <tr>
+            <td>
+              <select name="item_id[]" class="form-select item-select" required>
+                <option value="">Select item...</option>
+                {% for item in inventory_items %}
+                  <option value="{{ item.id }}" data-price="{{ '%.2f'|format(item.price) }}" {% if item.id == order_item.inventory_item_id %}selected{% endif %}>{{ item.name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+            <td><input type="number" name="quantity[]" class="form-control quantity-input" min="1" value="{{ order_item.quantity }}" required></td>
+            <td><input type="number" name="price[]" class="form-control price-input" step="0.01" min="0" value="{{ '%.2f'|format(order_item.price_at_sale) }}" required></td>
+            <td><button type="button" class="btn btn-danger btn-sm remove-row">&times;</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-secondary mb-3" id="addRowBtn">+ Add Item</button>
+      <div class="mb-3">
+        <label class="form-label">Order Total:</label>
+        <span id="orderTotal">$0.00</span>
+      </div>
+      <button type="submit" class="btn btn-primary">Update Order</button>
+      <a href="{{ url_for('orders') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+<script>
+// Add/Remove item rows dynamically
+const orderItemsBody = document.getElementById('orderItemsBody');
+document.getElementById('addRowBtn').onclick = function() {
+  const row = orderItemsBody.rows[0].cloneNode(true);
+  // Reset values
+  row.querySelectorAll('select, input').forEach(el => {
+    if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else el.value = el.name.includes('quantity') ? 1 : 0.00;
+  });
+  orderItemsBody.appendChild(row);
+  attachEvents(row);
+  updateTotal();
+};
+function attachEvents(row) {
+  row.querySelector('.remove-row').onclick = function() {
+    if (orderItemsBody.rows.length > 1) row.remove();
+    updateTotal();
+  };
+  row.querySelector('.item-select').onchange = function(e) {
+    const price = e.target.selectedOptions[0].getAttribute('data-price');
+    row.querySelector('.price-input').value = price || 0.00;
+    updateTotal();
+  };
+  row.querySelector('.quantity-input').oninput = updateTotal;
+  row.querySelector('.price-input').oninput = updateTotal;
+}
+[...orderItemsBody.rows].forEach(attachEvents);
+function updateTotal() {
+  let total = 0;
+  [...orderItemsBody.rows].forEach(row => {
+    const qty = parseFloat(row.querySelector('.quantity-input').value) || 0;
+    const price = parseFloat(row.querySelector('.price-input').value) || 0;
+    total += qty * price;
+  });
+  document.getElementById('orderTotal').textContent = '$' + total.toFixed(2);
+}
+orderItemsBody.oninput = updateTotal;
+updateTotal();
+</script>
+{% endblock %}
