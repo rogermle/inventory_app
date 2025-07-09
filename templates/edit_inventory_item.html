@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Edit Inventory Item | Inventory Management System{% endblock %}
+{% block content %}
+<div class="card mt-4">
+  <div class="card-body">
+    <h2 class="card-title">Edit Inventory Item</h2>
+    <form method="POST">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ item.name }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="description" name="description" value="{{ item.description }}">
+      </div>
+      <div class="mb-3">
+        <label for="quantity" class="form-label">Quantity</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" value="{{ item.quantity }}" min="0" required>
+      </div>
+      <div class="mb-3">
+        <label for="reorder_level" class="form-label">Reorder Level</label>
+        <input type="number" class="form-control" id="reorder_level" name="reorder_level" value="{{ item.reorder_level }}" min="0" required>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{ item.price }}" min="0" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <a href="{{ url_for('inventory') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

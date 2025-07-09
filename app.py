@@ -57,6 +57,34 @@ def add_inventory_item():
         return redirect(url_for('inventory'))
     return render_template('add_inventory_item.html')
 
+@app.route('/inventory/edit/<int:item_id>', methods=['GET', 'POST'])
+def edit_inventory_item(item_id):
+    item = InventoryItem.query.get_or_404(item_id)
+    if request.method == 'POST':
+        item.name = request.form['name']
+        item.description = request.form['description']
+        item.quantity = int(request.form['quantity'])
+        item.reorder_level = int(request.form['reorder_level'])
+        item.price = float(request.form['price'])
+        db.session.commit()
+        flash(f'Inventory item "{item.name}" updated!', 'success')
+        return redirect(url_for('inventory'))
+    return render_template('edit_inventory_item.html', item=item)
+
+from sqlalchemy.exc import IntegrityError
+
+@app.route('/inventory/delete/<int:item_id>', methods=['POST'])
+def delete_inventory_item(item_id):
+    item = InventoryItem.query.get_or_404(item_id)
+    try:
+        db.session.delete(item)
+        db.session.commit()
+        flash(f'Inventory item "{item.name}" deleted!', 'success')
+    except IntegrityError:
+        db.session.rollback()
+        flash(f'Cannot delete "{item.name}": it is used in one or more orders.', 'danger')
+    return redirect(url_for('inventory'))
+
 @app.route('/reports')
 def reports():
     return render_template('reports.html')
