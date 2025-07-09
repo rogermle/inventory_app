@@ -53,6 +53,13 @@ System{% endblock %} {% block content %}
             </form>
           </td>
         </tr>
+        {% else %}
+        <tr>
+          <td colspan="7" class="text-center text-muted py-4">
+            <i class="bi bi-box-seam" style="font-size: 2rem;"></i>
+            <div>No inventory items yet! Time to stock your shelves 📦</div>
+          </td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
