@@ -2,6 +2,30 @@
 System{% endblock %} {% block content %}
 <div class="card">
   <div class="card-body">
+    {% if low_stock_items %}
+      <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2" style="font-size: 1.5rem;"></i>
+        <div>
+          <strong>Low Stock Alert!</strong>
+          {% for item in low_stock_items %}
+            <br>{{ item.name }}: {{ item.quantity }} in stock (Reorder level: {{ item.reorder_level }})
+          {% endfor %}
+        </div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+    {% if nearing_low_stock_items %}
+      <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2" style="font-size: 1.5rem;"></i>
+        <div>
+          <strong>Nearing Low Stock:</strong>
+          {% for item in nearing_low_stock_items %}
+            <br>{{ item.name }}: {{ item.quantity }} in stock (Reorder level: {{ item.reorder_level }})
+          {% endfor %}
+        </div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="card-title mb-0">Inventory</h2>
       <a href="{{ url_for('add_inventory_item') }}" class="btn btn-success"

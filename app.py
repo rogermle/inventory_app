@@ -148,7 +148,12 @@ from flask import request, redirect, url_for, flash
 @app.route('/inventory')
 def inventory():
     items = InventoryItem.query.all()
-    return render_template('inventory.html', items=items)
+    low_stock_items = InventoryItem.query.filter(InventoryItem.quantity <= InventoryItem.reorder_level).all()
+    nearing_low_stock_items = InventoryItem.query.filter(
+        (InventoryItem.quantity > InventoryItem.reorder_level) &
+        (InventoryItem.quantity <= InventoryItem.reorder_level + (0.2 * InventoryItem.reorder_level))
+    ).all()
+    return render_template('inventory.html', items=items, low_stock_items=low_stock_items, nearing_low_stock_items=nearing_low_stock_items)
 
 @app.route('/inventory/add', methods=['GET', 'POST'])
 def add_inventory_item():
