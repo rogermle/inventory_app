@@ -7,10 +7,10 @@ INSERT INTO inventory_item (name, description, quantity, reorder_level, price) V
   ('Spare Part Z', 'Replacement part for Widget A', 200, 50, 0.99);
 
 -- Sample orders
-INSERT INTO "order" (date, total) VALUES
-  ('2025-07-01', 59.80),
-  ('2025-07-02', 15.98),
-  ('2025-07-03', 47.85);
+INSERT INTO "order" (id, date, total) VALUES
+  (1, '2025-07-01', 59.80),
+  (2, '2025-07-02', 15.98),
+  (3, '2025-07-03', 47.85);
 
 -- Sample order_items
 INSERT INTO order_item (order_id, inventory_item_id, quantity, price_at_sale) VALUES
