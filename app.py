@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from models import db
+from models import db, InventoryItem
 import os
 from dotenv import load_dotenv
 
@@ -30,7 +30,8 @@ def orders():
 
 @app.route('/inventory')
 def inventory():
-    return render_template('inventory.html')
+    items = InventoryItem.query.all()
+    return render_template('inventory.html', items=items)
 
 @app.route('/reports')
 def reports():

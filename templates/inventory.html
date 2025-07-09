@@ -4,7 +4,30 @@
   <div class="card">
     <div class="card-body">
       <h2 class="card-title">Inventory</h2>
-      <p class="card-text">This is a placeholder for the Inventory page.</p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Reorder Level</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.reorder_level }}</td>
+            <td>${{ '%.2f'|format(item.price) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 {% endblock %}
