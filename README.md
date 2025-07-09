@@ -4,17 +4,28 @@ A simple, teaching-friendly web application for managing inventory in a small re
 
 ## Features
 
-- Add, update, and delete inventory items
-- View inventory and check stock levels
-- Alerts for low inventory
-- Daily sales and inventory reports
+- Full CRUD for inventory items (add, edit, delete, view)
+- Full CRUD for orders (add, edit, delete, view), including dynamic forms for multiple items per order
+- Dashboard with quick actions, recent orders, and recent inventory items
+- Low stock and nearing-low stock alerts
+- Detailed reports:
+  - Inventory Valuation
+  - Sales Summary (by date)
+  - Low Stock Report
+- Flash messages for user feedback
+- Consistent, modern Bootstrap 5 UI with icons
+- PostgreSQL or SQLite backend (auto-detects based on environment)
 
 ## Tech Stack
 
 - Python 3
 - Flask (with Jinja templating)
 - Bootstrap 5 (via CDN)
-- SQLite (via Flask-SQLAlchemy)
+- PostgreSQL (preferred) or SQLite (via Flask-SQLAlchemy)
+
+## Database Diagram
+
+![Database Diagram](static/db-diagram.png)
 
 ## Setup
 
@@ -27,14 +38,26 @@ A simple, teaching-friendly web application for managing inventory in a small re
    ```bash
    pip install -r requirements.txt
    ```
-3. Run the app (instructions to be added)
+3. Run the app:
+
+   ```bash
+   flask run
+   # or
+   python app.py
+   ```
+
+4. Open your browser to [http://localhost:5000](http://localhost:5000)
 
 ## Project Structure
 
-- `app.py` – Main Flask application
-- `templates/` – Jinja HTML templates
-- `static/` – Static files (CSS, JS, images)
+- `app.py` – Main Flask application and routes
 - `models.py` – Database models
+- `templates/` – Jinja HTML templates
+  - `dashboard.html` – Home page with quick actions and recent activity
+  - `inventory.html`, `orders.html` – Inventory and order management
+  - `reports.html`, `inventory_valuation_report.html`, `sales_summary_report.html`, `low_stock_report.html` – Reporting
+- `static/` – Static files (CSS, JS, images)
+- `.env.EXAMPLE` – Example environment configuration
 
 ## Commit Philosophy
 
