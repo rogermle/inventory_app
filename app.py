@@ -22,8 +22,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 @app.route('/')
-def hello():
-    return render_template('index.html')
+def dashboard():
+    from models import Order, InventoryItem
+    recent_orders = Order.query.order_by(Order.date.desc()).limit(5).all()
+    recent_items = InventoryItem.query.order_by(InventoryItem.id.desc()).limit(5).all()
+    return render_template('dashboard.html', recent_orders=recent_orders, recent_items=recent_items)
+
 
 @app.route('/orders')
 def orders():

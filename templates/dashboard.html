@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | Inventory Management System{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <div class="mb-4 text-center">
+    <h1 class="display-5">Inventory Management System</h1>
+    <p class="lead">Welcome! Use the quick actions below or review your latest activity.</p>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row mb-4 justify-content-center">
+    <div class="col-auto">
+      <a href="{{ url_for('add_inventory_item') }}" class="btn btn-success btn-lg">
+        <i class="bi bi-plus-circle me-1"></i> Add Inventory Item
+      </a>
+    </div>
+    <div class="col-auto">
+      <a href="{{ url_for('add_order') }}" class="btn btn-primary btn-lg">
+        <i class="bi bi-plus-circle me-1"></i> Add Order
+      </a>
+    </div>
+    <div class="col-auto">
+      <a href="{{ url_for('reports') }}" class="btn btn-info btn-lg">
+        <i class="bi bi-graph-up me-1"></i> View Reports
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Recent Orders -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h4 class="card-title mb-3">Recent Orders</h4>
+          {% if recent_orders %}
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in recent_orders %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.date }}</td>
+                <td>${{ '%.2f'|format(order.total) }}</td>
+                <td>
+                  <a href="{{ url_for('order_detail', order_id=order.id) }}" class="btn btn-sm btn-outline-info" title="View">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+            <div class="text-muted">No recent orders.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Inventory Items -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h4 class="card-title mb-3">Recently Added Inventory</h4>
+          {% if recent_items %}
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in recent_items %}
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>
+                  <a href="{{ url_for('edit_inventory_item', item_id=item.id) }}" class="btn btn-sm btn-outline-primary" title="Edit">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+            <div class="text-muted">No recent inventory items.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
