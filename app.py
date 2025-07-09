@@ -206,7 +206,48 @@ def delete_inventory_item(item_id):
 
 @app.route('/reports')
 def reports():
-    return render_template('reports.html')
+    # List available reports
+    available_reports = [
+        {"name": "Inventory Valuation", "endpoint": "inventory_valuation_report"},
+        {"name": "Sales Summary", "endpoint": "sales_summary_report"},
+        {"name": "Low Stock", "endpoint": "low_stock_report"},
+    ]
+    return render_template('reports.html', available_reports=available_reports)
+
+@app.route('/reports/inventory_valuation')
+def inventory_valuation_report():
+    from models import InventoryItem
+    items = InventoryItem.query.all()
+    total_value = sum(item.quantity * item.price for item in items)
+    return render_template('inventory_valuation_report.html', items=items, total_value=total_value)
+
+from flask import request
+import datetime
+
+@app.route('/reports/sales_summary', methods=['GET', 'POST'])
+def sales_summary_report():
+    from models import Order, OrderItem, InventoryItem
+    selected_date = request.form.get('date') if request.method == 'POST' else datetime.date.today().isoformat()
+    orders = Order.query.filter(Order.date == selected_date).all()
+    order_ids = [o.id for o in orders]
+    order_items = OrderItem.query.filter(OrderItem.order_id.in_(order_ids)).all() if order_ids else []
+    # Build item sales summary
+    item_sales = {}
+    for oi in order_items:
+        item = InventoryItem.query.get(oi.inventory_item_id)
+        if item:
+            if item.name not in item_sales:
+                item_sales[item.name] = {"quantity": 0, "total": 0.0}
+            item_sales[item.name]["quantity"] += oi.quantity
+            item_sales[item.name]["total"] += oi.quantity * oi.price_at_sale
+    total_sales = sum(order.total for order in orders)
+    return render_template('sales_summary_report.html', selected_date=selected_date, orders=orders, total_sales=total_sales, item_sales=item_sales)
+
+@app.route('/reports/low_stock')
+def low_stock_report():
+    from models import InventoryItem
+    low_stock_items = InventoryItem.query.filter(InventoryItem.quantity <= InventoryItem.reorder_level).all()
+    return render_template('low_stock_report.html', low_stock_items=low_stock_items)
 
 if __name__ == '__main__':
     with app.app_context():

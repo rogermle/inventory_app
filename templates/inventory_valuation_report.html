@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Inventory Valuation Report | Inventory Management System{% endblock %}
+{% block content %}
+<div class="card mt-4">
+  <div class="card-body">
+    <h3 class="card-title">Inventory Valuation</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>${{ '%.2f'|format(item.price) }}</td>
+          <td>${{ '%.2f'|format(item.quantity * item.price) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="4" class="text-end">Total Inventory Value:</th>
+          <th>${{ '%.2f'|format(total_value) }}</th>
+        </tr>
+      </tfoot>
+    </table>
+    <a href="{{ url_for('reports') }}" class="btn btn-secondary mt-3">Back to Reports</a>
+  </div>
+</div>
+{% endblock %}

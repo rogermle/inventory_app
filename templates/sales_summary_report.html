@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Sales Summary Report | Inventory Management System{% endblock %}
+{% block content %}
+<div class="card mt-4">
+  <div class="card-body">
+    <h3 class="card-title">Sales Summary</h3>
+    <form method="POST" class="mb-4 d-flex align-items-end">
+      <div class="me-2">
+        <label for="date" class="form-label mb-0">Date:</label>
+        <input type="date" id="date" name="date" class="form-control" value="{{ selected_date }}">
+      </div>
+      <button type="submit" class="btn btn-primary">Run Report</button>
+    </form>
+    <h5 class="mb-3">Orders on {{ selected_date }}</h5>
+    {% if orders %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>${{ '%.2f'|format(order.total) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total Sales:</th>
+          <th>${{ '%.2f'|format(total_sales) }}</th>
+        </tr>
+      </tfoot>
+    </table>
+    <h5 class="mt-4 mb-3">Items Sold</h5>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity Sold</th>
+          <th>Total Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for name, data in item_sales.items() %}
+        <tr>
+          <td>{{ name }}</td>
+          <td>{{ data.quantity }}</td>
+          <td>${{ '%.2f'|format(data.total) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <div class="alert alert-info">No sales found for this date.</div>
+    {% endif %}
+    <a href="{{ url_for('reports') }}" class="btn btn-secondary mt-3">Back to Reports</a>
+  </div>
+</div>
+{% endblock %}
