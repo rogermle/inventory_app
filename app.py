@@ -253,7 +253,10 @@ def low_stock_report():
     low_stock_items = InventoryItem.query.filter(InventoryItem.quantity <= InventoryItem.reorder_level).all()
     return render_template('low_stock_report.html', low_stock_items=low_stock_items)
 
+import os
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    debug = os.environ.get('FLASK_ENV', 'production') != 'production'
+    app.run(host='0.0.0.0', debug=debug)

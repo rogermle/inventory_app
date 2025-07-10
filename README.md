@@ -1,5 +1,7 @@
 # Inventory Management System
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
 A simple, teaching-friendly web application for managing inventory in a small retail business. Built with Flask, Jinja, Bootstrap 5, and Flask-SQLAlchemy.
 
 ## Features
@@ -62,6 +64,24 @@ A simple, teaching-friendly web application for managing inventory in a small re
 ## Commit Philosophy
 
 Each commit represents a clear, teachable step in the project-building process, with descriptive messages and comments to help learners follow along.
+
+---
+
+## 🚀 Deploying to Render.com
+
+You can deploy this app to Render with one click using the badge above, or manually by following these steps:
+
+1. **Fork or clone this repository.**
+2. **Click the Deploy to Render badge above** (or go to [https://render.com/deploy](https://render.com/deploy)) and connect your GitHub repo.
+3. **Set environment variables:**
+   - `DATABASE_URL` (Render provides this if you add a PostgreSQL instance)
+   - `SECRET_KEY` (set your own secure value)
+   - `FLASK_ENV=production`
+4. **(Optional) Add a PostgreSQL database** via Render’s dashboard and connect it to your service.
+5. **Build and start commands:**
+   - Build command: `pip install -r requirements.txt`
+   - Start command: `gunicorn app:app`
+6. **Wait for deployment to finish, then visit your Render URL!**
 
 ---
 
