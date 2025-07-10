@@ -108,8 +108,9 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## 🚀 Deploying to Render.com
 
-You can deploy this app to Render with one click using the badge above, or manually by following these steps:
+You can deploy this app to Render using either the one-click badge above **or** the Render Blueprint system with `render.yaml`.
 
+### One-Click Deploy (Badge)
 1. **Fork or clone this repository.**
 2. **Click the Deploy to Render badge above** (or go to [https://render.com/deploy](https://render.com/deploy)) and connect your GitHub repo.
 3. **Set environment variables:**
@@ -121,6 +122,17 @@ You can deploy this app to Render with one click using the badge above, or manua
    - Build command: `pip install -r requirements.txt`
    - Start command: `gunicorn app:app`
 6. **Wait for deployment to finish, then visit your Render URL!**
+
+### Blueprint Deploy (Infrastructure-as-Code)
+- This repo includes a `render.yaml` file for [Render Blueprints](https://render.com/docs/blueprint-spec), enabling infrastructure-as-code.
+- Render will automatically provision:
+  - A Python web service with Gunicorn
+  - A free PostgreSQL database
+  - All required environment variables
+- Any changes to `render.yaml` will sync with your Render Blueprint deployment.
+
+**Troubleshooting:**
+- If you see "No render.yaml found on main branch", make sure you have pushed `render.yaml` to your repository and selected the correct branch in Render.
 
 ---
 
