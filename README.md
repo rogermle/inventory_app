@@ -54,9 +54,14 @@ A simple, teaching-friendly web application for managing inventory in a small re
 
 - `app.py` – Main Flask application and routes
 - `models.py` – Database models
+- `requirements.txt` – Python dependencies
+- `Procfile` – For Render.com deployment
+- `sample_data.sql` – Sample data for quick start
 - `templates/` – Jinja HTML templates
-  - `dashboard.html` – Home page with quick actions and recent activity
-  - `inventory.html`, `orders.html` – Inventory and order management
+  - `base.html` – Shared base template
+  - `dashboard.html` – Home/dashboard with quick actions and recent activity
+  - `inventory.html`, `add_inventory_item.html`, `edit_inventory_item.html` – Inventory management
+  - `orders.html`, `add_order.html`, `edit_order.html`, `order_detail.html` – Order management
   - `reports.html`, `inventory_valuation_report.html`, `sales_summary_report.html`, `low_stock_report.html` – Reporting
 - `static/` – Static files (CSS, JS, images)
 - `.env.EXAMPLE` – Example environment configuration
@@ -66,6 +71,35 @@ A simple, teaching-friendly web application for managing inventory in a small re
 Each commit represents a clear, teachable step in the project-building process, with descriptive messages and comments to help learners follow along.
 
 ---
+
+## Screenshots
+
+### Dashboard
+![Dashboard Screenshot](static/screenshots/dashboard.png)
+
+### Inventory Page
+![Inventory Screenshot](static/screenshots/inventory.png)
+
+### Orders Page
+![Orders Screenshot](static/screenshots/orders.png)
+
+### Reports Page
+![Reports Screenshot](static/screenshots/reports.png)
+
+## Sample Data
+
+You can quickly populate your database for demo/testing with:
+```bash
+psql $DATABASE_URL < sample_data.sql
+```
+
+## Contributing
+
+Pull requests and suggestions welcome! Please open an issue or submit a PR.
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.
 
 ## 🚀 Deploying to Render.com
 
