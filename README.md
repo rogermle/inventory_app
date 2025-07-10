@@ -33,7 +33,7 @@ A simple, teaching-friendly web application for managing inventory in a small re
 
 1. Create and activate a virtual environment:
    ```bash
-   python3 -m venv venv
+   python -m venv venv
    source venv/bin/activate
    ```
 2. Install dependencies:
@@ -75,20 +75,25 @@ Each commit represents a clear, teachable step in the project-building process, 
 ## Screenshots
 
 ### Dashboard
+
 ![Dashboard Screenshot](static/screenshots/dashboard.png)
 
 ### Inventory Page
+
 ![Inventory Screenshot](static/screenshots/inventory.png)
 
 ### Orders Page
+
 ![Orders Screenshot](static/screenshots/orders.png)
 
 ### Reports Page
+
 ![Reports Screenshot](static/screenshots/reports.png)
 
 ## Sample Data
 
 You can quickly populate your database for demo/testing with:
+
 ```bash
 psql $DATABASE_URL < sample_data.sql
 ```
