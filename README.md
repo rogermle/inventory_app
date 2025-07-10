@@ -2,6 +2,8 @@
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
 
+**Live Demo:** [https://inventory-app-k8x8.onrender.com/](https://inventory-app-k8x8.onrender.com/)
+
 A simple, teaching-friendly web application for managing inventory in a small retail business. Built with Flask, Jinja, Bootstrap 5, and Flask-SQLAlchemy.
 
 ## Features
